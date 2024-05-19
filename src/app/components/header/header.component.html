@@ -1,0 +1,145 @@
+<div class="header navbar-expand-xl">
+    <div class="header-container navbar-toggler">
+        <div class="header-container navbar-toggler d-flex justify-content-between">
+            <a class="navbar-toggler p-1 px-3" href="/" title="Home" rel="Home">
+                <img class="navbar-toggler" style="width: 60px;" src="../../../assets/img/logo.png" alt="Home">
+            </a>
+            <div class="navbar-toggler">
+                <button type="button" mat-icon-button data-bs-toggle="offcanvas" data-bs-target="#carritoCompras">
+                    <mat-icon [matBadge]="cantidadRepuestosSeleccionadosParaComprar"
+                        class="my-custom-badge">shopping_cart</mat-icon>
+                </button>
+                <button class="navbar-toggler px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobile"
+                    aria-controls="mobile" aria-expanded="false">
+                    <mat-icon class="fs-2">menu</mat-icon>
+                </button>
+            </div>
+        </div>
+        <form class="input-group w-100">
+            <input type="text" style="padding: 8px 10px 10px 8px !important;" class="form-control"
+                placeholder="Busca tu repuesto o servicio..." name="busqueda" (input)="onInputChange()"
+                [(ngModel)]="textoBuscar">
+            <button class="btn" (click)="buscar(textoBuscar)" type="submit" data-bs-dismiss="offcanvas"
+                style="background-color: black; color: white;">
+                <mat-icon>search</mat-icon>
+            </button>
+        </form>
+    </div>
+    <div class="header-container collapse navbar-collapse" id="navbarTogglerDemo02">
+        <div style="width: 9%;">
+            <a href="/" title="Home" rel="Home">
+                <img style="height: 75px;" src="../../../assets/img/logo.png" alt="Home">
+            </a>
+        </div>
+        <div style="width: 17%; font-weight: bold;">
+            <p style="font-size: 32px; margin: 0;">REPUESTOS</p>
+            <p style="font-size: 20px; margin: 0;">SERVICIO TÉCNICO</p>
+        </div>
+        <div style="width: 33%;">
+            <form class="input-group" (keydown.enter)="buscar(textoBuscar); input.blur();">
+                <input #input type="text" style="padding: 18px 12px 18px 12px !important;" class="form-control"
+                    placeholder="Busca tu repuesto o servicio..." name="busqueda" [matAutocomplete]="auto"
+                    (keyup)="onInputChange()" [(ngModel)]="textoBuscar">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+                    <mat-option *ngFor="let repuesto of repuestosFitradosNombre" [value]="repuesto.nombre_repuesto">
+                        <a href="/repuesto/{{repuesto.id_repuesto}}">
+                            {{ repuesto.nombre_repuesto }}
+                        </a>
+                    </mat-option>
+                </mat-autocomplete>
+                <button class="btn" (click)="buscar(textoBuscar)" type="button"
+                    style="background-color: black; color: white;">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </form>
+        </div>
+        <div style="width: 5%;">
+            <a class="d-flex justify-content-center align-content-center"
+                href="https://wa.me/593991125207?text=Hola%2C%20%C2%BFMe%20ayuda%20en%20la%20compra%20de%20un%20repuesto%3F">
+                <div class="botonWhatssapp">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+            </a>
+        </div>
+        <div style="flex-direction: row; width: 20%;">
+            <div class="d-flex justify-content-between">
+                <img style="height: 35px; width: auto;" src="../../../assets/img/porsche.png" alt="Home">
+                <img style="height: 35px; width: auto;" src="../../../assets/img/audi.png" alt="Home">
+                <img style="height: 33px; width: auto;" src="../../../assets/img/mercedes.png" alt="Home">
+                <img style="height: 31px; width: auto;" src="../../../assets/img/mini.png" alt="Home">
+                <img style="height: 35px; width: auto;" src="../../../assets/img/bmw.png" alt="Home">
+            </div>
+        </div>
+        <div style="width: 7%;">
+            <button disabled="true" class="w-100 px-2" style="background-color: rgb(0, 143, 0); color: white;"
+                mat-raised-button><mat-icon>person</mat-icon>
+                <span style="font-size: 10px;">ACCEDER</span>
+            </button>
+        </div>
+        <div style="width: 4%;">
+            <button type="button" mat-icon-button data-bs-toggle="offcanvas" data-bs-target="#carritoCompras">
+                <mat-icon [matBadge]="cantidadRepuestosSeleccionadosParaComprar"
+                    class="my-custom-badge">shopping_cart</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="carritoCompras">
+    <div style="background-color: rgb(255, 230, 0);" class="offcanvas-header text-white">
+        <h5 class="offcanvas-title"><b>MIS PRODUCTOS</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ng-container *ngIf="cantidadRepuestosSeleccionadosParaComprar > 0; else sinRepuestosSeleccionados">
+            <ng-container *ngFor="let repuesto of repuestosSeleccionadosParaCompra">
+                <div class="position-relative">
+                    <button (click)="eliminarDelCarrito(repuesto)" mat-icon-button type="button"
+                        class="position-absolute shadow-none top-0 end-0 rounded-0">
+                        <mat-icon color="warn">delete</mat-icon>
+                    </button>
+                </div>
+                <div class="border border-black-300">
+                    <p class="card-text" style="padding: 0 45px 0 10px; margin-bottom: 0;"><b>{{repuesto.nombre_repuesto}}</b></p>
+                    <a class="row" href="/repuesto/{{repuesto.id_repuesto}}">
+                        <div class="col-lg-4">
+                            <img class="imagenRepuesto" src="{{appUrl+apiUrl+'/'+repuesto.foto_principal}}" alt="">
+                        </div>
+                        <div class="col-lg-8">
+                            <br>
+                            <span class="card-text">Código: {{repuesto.id_repuesto}}</span><br>
+                            <span class="card-text">Precio: ${{repuesto.precio_PVP}} + IVA</span>
+                        </div>
+                    </a>
+                </div>
+            </ng-container>
+            <br><br>
+            <h3><b>TOTAL: ${{calcularTotal()}} + IVA</b></h3>
+            <a href="/detalle-carrito">
+                <button mat-raised-button color="primary" class="w-100" style="margin: 5px 0 15px 0 ;">
+                    <mat-icon>shopping_cart_checkout</mat-icon>Ver mas detalles
+                </button>
+            </a>
+            <button (click)="borrarRepuestosSeleccionadosParaCompra()" mat-raised-button color="warn" class="w-100">
+                <mat-icon>delete</mat-icon>Borrar todo
+            </button>
+        </ng-container>
+        <ng-template #sinRepuestosSeleccionados>
+            <div class="col text-center">
+                <p>No tienes repuestos</p>
+            </div>
+            <a class="d-flex justify-content-center mt-5" href="/repuestos">
+                <button style="width: 100%;" type="button" mat-raised-button color="primary">
+                    <mat-icon>store</mat-icon>Ver todos los productos</button>
+            </a>
+        </ng-template>
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="mobile">
+    <div style="background-color: rgb(255, 230, 0);" class="offcanvas-header text-white">
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <app-categorias-arbol></app-categorias-arbol>
+    </div>
+</div>

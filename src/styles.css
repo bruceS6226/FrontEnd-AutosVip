@@ -1,0 +1,152 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+html,
+body {
+    height: auto;
+    font-family: "Varela Round", Sans-serif !important;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.botonFlotante {
+    position: fixed;
+    bottom: 80px;
+    right: 26px;
+    background-color: #64D448;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    line-height: 55px;
+    text-decoration: none;
+    font-size: 42px;
+    transition: background-color 0.3s;
+    z-index: 1000;
+}
+
+/* Estilos del texto al hacer hover */
+.botonFlotante:hover::before {
+    content: "Pide asesoramiento aquí";
+    display: block;
+    position: absolute;
+    right: 60px;
+    bottom: 50%;
+    transform: translateY(50%);
+    white-space: nowrap;
+    background-color: #64D448;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 15px;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+.return-top {
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    bottom: 30px;
+    right: 26px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.container {
+    padding: 0 auto !important;
+    margin-top: 95px !important;
+    margin-bottom: 70px !important;
+    max-width: 1550px !important;
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: white;
+    margin: 0;
+    padding: 10px 0 0 0;
+    z-index: 100;
+    position: sticky;
+    top: 80px;
+}
+.titulo span{
+    font-weight: bold;
+    color: black;
+    font-size: 22px;
+}
+
+/*repuestos*/
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.imagenRepuesto {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.my-custom-badge {
+    .mat-badge-content {
+        background-color: rgb(247, 251, 4);
+        color: black;
+    }
+}
+
+/*paginacion*/
+.custom-paginator {
+    display: flex !important;
+    background-color: black !important;
+    color: white !important;
+    padding: 8px;
+    justify-content: center;
+    font-size: 18px !important;
+    fill: white !important;
+    border: 1px solid rgb(206, 206, 206);
+}
+.custom-paginator .mat-mdc-icon-button {
+    background-color: #ffffff !important;
+}
+/*cards repuestos*/
+.card:hover{
+    background-color: rgb(250, 250, 250);
+    transform: scale(1.01);
+}
+.marca-vhc:hover{
+    font-weight: 700;
+    transform: scale(1.01);
+}.marca-vhc a:hover{
+    color: #3f51b5 !important;
+}
+
+@media (min-width: 1200px) {
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+        max-width: 1200px;
+    }
+}
+/* lg */
+@media (min-width: 992px) {
+    .card-title {
+        min-height: 80px;
+    }
+}
+
+/* xl */
+@media (min-width: 1200px) {
+    .card-title {
+        min-height: 80px;
+    }
+}

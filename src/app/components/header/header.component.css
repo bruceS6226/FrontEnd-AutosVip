@@ -1,0 +1,43 @@
+.header {
+    width: 100%;
+    background-color: white;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+}
+
+.header-container {
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid #eeeeee;
+    box-shadow: 0 2px 0 0 #f5f5f5;
+}
+
+.header-container>* {
+    margin: 0 10px;
+}
+
+.botonWhatssapp {
+    background-color: #64D448;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    line-height: 55px;
+    text-decoration: none;
+    font-size: 42px;
+    transition: background-color 0.3s;
+}
+.botonWhatssapp:hover::before {
+    margin: -8px 0 0 43px;
+    content: "WA: +593999900223";
+    position: fixed;
+    background-color: #24b600;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 15px;
+    opacity: 1;
+    transition: opacity 0.3s;
+}

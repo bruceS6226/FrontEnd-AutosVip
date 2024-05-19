@@ -1,0 +1,88 @@
+<div class="return-top">
+    <button (click)="retornar()" mat-icon-button>
+        <mat-icon class="fw-bold">arrow_back</mat-icon>
+    </button>
+</div>
+<div class="container">
+    <div class="row row-cols-2 row-cols-lg-3 d-flex justify-content-center align-items-center py-3">
+        <div class="col-lg-1">
+            <ng-container *ngFor="let foto of fotos; let i = index">
+                <div class="card cardSecundaria" (click)="seleccionarFotoSecundaria(foto, i)">
+                    <img class="imagenSecundaria" src="{{appUrl+apiUrl+'/'+foto}}" alt="">
+                </div>
+            </ng-container>
+        </div>
+        <div class="col-lg-6">
+            <div class="card text-center">
+                <div class="imagenPrincipalContainer">
+                    <img class="imagenRepuesto" src="{{appUrl+apiUrl+'/'+fotoPrincipal}}" alt="">
+                    <img class="img2" src="{{appUrl+apiUrl+'/'+fotoPrincipal}}" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="text-start">
+                <h1 class="card-text"><b>{{repuesto.nombre_repuesto}}</b></h1>
+                <h5 class="card-text">Código del repuesto: {{repuesto.id_repuesto}}</h5>
+                <br><p class="marca-vhc card-text">
+                    <a style="color: rgb(204, 0, 0);">
+                        Marca VHC: {{categoriaDentroMarcasVehiculo.nombre_categoria_dentro_marcas_vehiculo}}
+                    </a>
+                </p>
+                <p class="card-text fw-bold">
+                    <span style="color: green;"
+                        *ngIf="repuesto && repuesto.cantidad_inventario !== null && repuesto.cantidad_inventario !== undefined">
+                        {{repuesto.cantidad_inventario > 0 ? 'DISPONIBLE' : 'NO DISPONIBLE'}}
+                    </span>
+                    <span class="font-weight-bold" class="text-danger"
+                        *ngIf="!repuesto || repuesto.cantidad_inventario === null || repuesto.cantidad_inventario === undefined">
+                        NO DISPONIBLE
+                    </span>
+                </p>
+                <p class="card-text">
+                    Detalle del producto:
+                </p>
+                <div class="card" style="z-index: -1;"><br><br></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <h5 class="card-text">Precio: ${{repuesto.precio_PVP}} + IVA</h5>
+                </div>
+                <div class="col">
+                    <button (click)="agregarAlCarrito(repuesto)" class="w-100" type="button" mat-raised-button
+                        color="primary">
+                        <mat-icon>add_shopping_cart</mat-icon>Agregar al carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h3>Matriz de compatibilidad</h3>
+    <div>
+        <table class="table table-bordered mb-4 align-content-center">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-left">Principal</th>
+                    <th scope="col" class="text-left">Marca</th>
+                    <th scope="col" class="text-right">Modelo</th>
+                    <th scope="col" class="text-left">Tipo 1</th>
+                    <th scope="col" class="text-left">Tipo 2</th>
+                    <th scope="col" class="text-left">Tipo 3</th>
+                    <th scope="col" class="text-right">Año</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="font-light text-left">*</td>
+                    <td class="font-light text-left">{{categoriaDentroMarcasVehiculo.nombre_categoria_dentro_marcas_vehiculo}}</td>
+                    <td class="font-light text-left"></td>
+                    <td class="font-light text-left"></td>
+                    <td class="font-light text-left"></td>
+                    <td class="font-light text-left"></td>
+                    <td class="font-light text-left"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

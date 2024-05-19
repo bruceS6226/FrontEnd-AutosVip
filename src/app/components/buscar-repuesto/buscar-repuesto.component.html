@@ -1,0 +1,63 @@
+<div class="container" style="justify-content: space-between;">
+  <div class="row row-cols-1 row-cols-lg-2">
+    <div class="col-lg-2">
+      <app-categorias-arbol></app-categorias-arbol>
+    </div>
+    <div class="col-lg-10">
+      <div class="titulo gap-1">
+        <mat-icon>pageview</mat-icon>
+        <h4 class="m-0">Resultados de: <span style="font-style: italic !important;">{{textoBuscar}}</span></h4>
+      </div>
+      <ng-container *ngIf="!cargando; else spinnerCargando">
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4">
+          <ng-container *ngIf="repuestosPorPagina.length > 0; else noRepuestos">
+            <ng-container *ngFor="let repuesto of repuestosPorPagina; let i = index">
+              <div class="col py-1">
+                <div class="card text-center">
+                  <a href="/repuesto/{{repuesto.id_repuesto}}">
+                    <img class="imagenRepuesto" src="{{appUrl+apiUrl+'/'+fotosPrincipales[i]}}" alt="">
+                    <p class="card-text" style="color: rgb(180, 0, 0);">Código: {{repuesto.id_repuesto}}</p>
+                    <p class="card-title"><b>{{repuesto.nombre_repuesto}}</b></p>
+                    <p class="marca-vhc card-text">
+                      <a style="color: rgb(204, 0, 0);"
+                        href="/repuestos/{{buscarRepuestoCategoriaDentroMarcasVehiculo(repuesto.id_repuesto)}}">
+                        Marca VHC: {{buscarRepuestoCategoriaDentroMarcasVehiculo(repuesto.id_repuesto)}}
+                      </a>
+                    </p>
+                    <div class="card-text" style="display: flex; justify-content: center; ">
+                      <div style="display: flex; align-items: center;">
+                        <p>Precio: $ {{repuesto.precio_PVP}}</p>
+                      </div>
+                      <div style="display: flex; font-size: 9px; margin-left: 10px; flex-direction: column;">
+                        <span>incluye</span>
+                        <span>impuestos</span>
+                      </div>
+                    </div>
+                  </a>
+                  <div class="card-body">
+                    <button (click)="agregarAlCarrito(repuesto)" class="w-100" type="button" mat-raised-button
+                      color="primary">
+                      <mat-icon>add_shopping_cart</mat-icon>Agregar al carrito</button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-template class="col text-center" #noRepuestos>
+            <div>
+              <p>No hay repuestos disponibles</p>
+            </div>
+          </ng-template>
+        </div>
+      </ng-container>
+      <ng-template #spinnerCargando>
+        <div class="d-flex justify-content-center align-items-center" style="height: 65vh;">
+          <mat-spinner></mat-spinner>
+        </div>
+      </ng-template>
+      <mat-paginator class="custom-paginator" [hidePageSize]="true" [length]="cantidadRepuestos"
+        [pageSize]="tamanioPagina" (page)="pageChanged($event)">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

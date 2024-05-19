@@ -1,0 +1,17 @@
+.font-bold {
+    font-weight: 500 !important;
+    color: blue;
+    font-size: 14px !important;
+}
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-content {
+  font-size: 12px !important;
+}
+.mat-expansion-panel-header {
+    padding: 0 15px 0 10px;
+}
+
+.categorias-arbol {
+  position: sticky;
+  top: 80px;
+}

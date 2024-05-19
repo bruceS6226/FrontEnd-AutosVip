@@ -1,0 +1,52 @@
+.container{
+    text-align: start;
+    max-width: 1200px !important;
+}
+.return-top {
+    bottom: 160px;
+}
+.cardSecundaria {
+    width: 100%;
+    height: 15vh;
+    overflow: hidden;
+    margin: 0 auto;
+    object-fit: cover;
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center;
+}
+.imagenSecundaria {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    object-fit: cover;
+}
+.card .imagenPrincipalContainer {
+    position: relative;
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+}
+.imagenRepuesto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-bottom: 0px;
+}
+.card:hover .imagenPrincipalContainer .imagenRepuesto {
+    opacity: 0.5;
+}
+.img2 {
+    position: absolute;
+    top: 0;
+    left: 100px;
+    opacity: 0;
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out; 
+    transform-origin: 0 0;
+    z-index: 1000;
+}
+.card:hover .imagenPrincipalContainer .img2 {
+    opacity: 1; 
+    transform: scale(0.8); 
+}

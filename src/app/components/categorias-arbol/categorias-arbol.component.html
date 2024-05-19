@@ -1,0 +1,141 @@
+<div class="categorias-arbol">
+  <div class="titulo gap-1">
+    <mat-icon>arrow_downward</mat-icon>
+    <span class="m-0">CATEGORÍAS</span>
+  </div>
+  <mat-accordion [multi]="true">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          PRODUCTOS Y SERVICIOS
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="w-100">
+        <a mat-button routerLink="/repuestos" (click)="marcarDelArbol('')"
+          style="padding: 0; margin: 0; justify-content: start;">
+          <span [ngClass]="{'font-bold': ramaClicada === ''}" style="font-size: 12px;">Todos</span>
+        </a>
+      </div>
+      <div class="w-100">
+        <a mat-button routerLink="/repuestos" (click)="marcarDelArbol('todos los repuestos')"
+          style="padding: 0; margin: 0; justify-content: start;">
+          <span [ngClass]="{'font-bold': ramaClicada === 'todos los repuestos'}" style="font-size: 12px;">Repuestos</span>
+        </a>
+      </div>
+      <div class="w-100">
+        <a mat-button routerLink="/repuestos" (click)="marcarDelArbol('todos los repuestos')" (click)="marcarDelArbol('accesorios')"
+         style="padding: 0; margin: 0; justify-content: start;">
+          <span [ngClass]="{'font-bold': ramaClicada === 'accesorios'}" style="font-size: 12px;">Accesorios</span>
+        </a>
+      </div>
+      <div class="w-100">
+        <mat-tree [dataSource]="dataSourceServicios" [treeControl]="serviciosTreeControl">
+          <mat-tree-node *matTreeNodeDef="let node; let level = level" matTreeNodePadding
+            [style.padding-left.px]="13 * node.level">
+            <button mat-icon-button disabled style="width: 20px; height: 20px; font-size: 20px; padding: 0px;"></button>
+            <a mat-button (click)="marcarDelArbol(node.nombre_servicio)"
+              style="justify-content: start;" routerLink="/repuestos/{{node.nombre_servicio}}">
+              <span [ngClass]="{ 'font-bold': ramaClicada === node.nombre_servicio }"
+                style="font-weight: normal; font-size: 12px;">{{node.nombre_servicio}}</span>
+            </a>
+          </mat-tree-node>
+          <mat-tree-node *matTreeNodeDef="let node; when: serviciosHasChild; let level = level" matTreeNodePadding
+            [style.padding-left.px]="20 * node.level">
+            <button mat-icon-button matTreeNodeToggle
+              [attr.aria-label]="'Toggle ' + node.nombre_servicio"
+              style="width: 20px; height: 20px; font-size: 20px; padding: 0px;">
+              <mat-icon class="mat-icon-rtl-mirror" style="font-size: 20px;">
+                {{serviciosTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+            <a mat-button (click)="marcarDelArbol(node.nombre_servicio)" routerLink="/repuestos/{{node.nombre_servicio}}"
+              style="padding: 0; margin: 0; justify-content: start;">
+              <span [ngClass]="{ 'font-bold': ramaClicada === node.nombre_servicio }"
+                style="font-weight: normal;font-size: 12px; margin-left: 4px;">
+                {{node.nombre_servicio}}</span>
+            </a>
+          </mat-tree-node>
+        </mat-tree>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          MARCAS DE VEHÍCULO
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="w-100">
+        <div class="w-100">
+          <a mat-button (click)="marcarDelArbol('todas las marcas')" routerLink="/repuestos"
+            style="padding: 0; margin: 0; justify-content: start;">
+            <span [ngClass]="{'font-bold': ramaClicada==='repuestos' || ramaClicada==='todas las marcas'}"
+              style="font-weight: normal; font-size: 12px;">Todas</span>
+          </a>
+        </div>
+        <mat-tree [dataSource]="dataSourceMarcas" [treeControl]="marcasTreeControl">
+          <mat-tree-node *matTreeNodeDef="let node; let level = level" matTreeNodePadding
+            [style.padding-left.px]="13 * node.level">
+            <button mat-icon-button disabled style="width: 20px; height: 20px; font-size: 20px; padding: 0px;"></button>
+            <a mat-button (click)="marcarDelArbol(node.nombre_categoria_dentro_marcas_vehiculo)"
+              style="justify-content: start;" routerLink="{{buscarRepuestoPorCategoriaDentroMarcasVehiculo(node)}}">
+              <span [ngClass]="{ 'font-bold': ramaClicada === node.nombre_categoria_dentro_marcas_vehiculo }"
+                style="font-weight: normal; font-size: 12px;">{{node.nombre_categoria_dentro_marcas_vehiculo}}</span>
+            </a>
+          </mat-tree-node>
+          <mat-tree-node *matTreeNodeDef="let node; when: marcasHasChild; let level = level" matTreeNodePadding
+            [style.padding-left.px]="20 * node.level">
+            <button mat-icon-button matTreeNodeToggle
+              [attr.aria-label]="'Toggle ' + node.nombre_categoria_dentro_marcas_vehiculo"
+              style="width: 20px; height: 20px; font-size: 20px; padding: 0px;">
+              <mat-icon class="mat-icon-rtl-mirror" style="font-size: 20px;">
+                {{marcasTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+            <a mat-button (click)="marcarDelArbol(node.nombre_categoria_dentro_marcas_vehiculo)"
+              style="padding: 0; margin: 0; justify-content: start;"
+              routerLink="{{buscarRepuestoPorCategoriaDentroMarcasVehiculo(node)}}">
+              <span [ngClass]="{ 'font-bold': ramaClicada === node.nombre_categoria_dentro_marcas_vehiculo }"
+                style="font-weight: normal;font-size: 12px; margin-left: 4px;">
+                {{node.nombre_categoria_dentro_marcas_vehiculo}}</span>
+            </a>
+          </mat-tree-node>
+        </mat-tree>
+      </div>
+    </mat-expansion-panel>
+    <!--
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          SISTEMAS DEL VEHÍCULO
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="w-100">
+        <mat-tree [dataSource]="dataSourceSistemas" [treeControl]="sistemasTreeControl">
+          <mat-tree-node *matTreeNodeDef="let node; let level = level" matTreeNodePadding
+            [style.padding-left.px]="13 * node.level">
+            <button mat-icon-button disabled style="width: 20px; height: 20px; font-size: 20px; padding: 0px;"></button>
+            <button mat-button (click)="buscarRepuestoPorCategoriaDentroSistemasVehiculo(node)">
+              <a style="font-weight: normal;">{{node.nombre_categoria_dentro_sistemas_vehiculo}}</a>
+            </button>
+          </mat-tree-node>
+          <mat-tree-node *matTreeNodeDef="let node; when: sistemasHasChild; let level = level" matTreeNodePadding
+            [style.padding-left.px]="20 * node.level">
+            <button mat-icon-button matTreeNodeToggle
+              [attr.aria-label]="'Toggle ' + node.nombre_categoria_dentro_sistemas_vehiculo"
+              style="width: 20px; height: 20px; font-size: 20px; padding: 0px;">
+              <mat-icon class="mat-icon-rtl-mirror" style="font-size: 20px;">
+                {{sistemasTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+            <button mat-button (click)="buscarRepuestoPorCategoriaDentroSistemasVehiculo(node)"
+              style="padding: 0; margin: 0;">
+              <a style="font-weight: normal; margin-left: 4px;">
+                {{node.nombre_categoria_dentro_sistemas_vehiculo}}</a>
+            </button>
+          </mat-tree-node>
+        </mat-tree>
+      </div>
+    </mat-expansion-panel>
+  -->
+  </mat-accordion>
+</div>

@@ -1,0 +1,130 @@
+<div class="container">
+    <ng-container *ngIf="repuestosSeleccionadosParaCompra.length > 0; else noRepuestosSeleccionadosParaCompra">
+        <div class="titulo gap-1">
+            <mat-icon>shopping_bag</mat-icon>
+            <h4 class="m-0">Mis productos</h4>
+        </div><br>
+        <div class="row row-cols-1 row-cols-lg-2">
+            <ng-container *ngFor="let repuesto of repuestosSeleccionadosParaCompra">
+                <div class="col">
+                    <div class="position-relative">
+                        <button (click)="eliminarDelCarrito(repuesto)" mat-mini-fab color="warn"
+                            class="position-absolute shadow-none top-0 end-0 rounded-0" type="button">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                    <div class="px-2 border border-black-300">
+                        <div class="row">
+                            <div class="col">
+                                <a href="/repuesto/{{repuesto.id_repuesto}}">
+                                    <img class="imagenRepuesto mb-0" src="{{appUrl+apiUrl+'/'+repuesto.foto_principal}}"
+                                        alt="">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <br><br>
+                                <h5 class="card-title"><b>{{repuesto.nombre_repuesto}}</b></h5>
+                                <span class="card-text">Código: {{repuesto.id_repuesto}}</span><br>
+                                <span class="card-text">Precio: ${{repuesto.precio_PVP}} + IVA</span>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span>Cantidad</span>
+                                    <div class="px-3 input-group">
+                                        <button class="btn border border-gray-300" type="button"
+                                            (click)="disminuirCantidad(repuesto.id_repuesto)">-</button>
+                                        <input type="text" class="form-control" disabled
+                                            [value]="repuestoCantidades.get(repuesto.id_repuesto)" #cantidad
+                                            name="cantidad">
+                                        <button class="btn border border-gray-300" type="button"
+                                            (click)="aumentarCantidad(repuesto.id_repuesto)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div><br>
+        <div class="text-center">
+            <div class="titulo gap-1">
+                <mat-icon>receipt_long</mat-icon>
+                <h4 class="m-0">Resumen del pedido</h4><br>
+            </div><br>
+            <div class="flex flex-col">
+                <div>
+                    <table class="table table-bordered mb-4 align-content-center">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-left"></th>
+                                <th scope="col" class="text-left">CÓDIGO</th>
+                                <th scope="col" class="text-left">DESCRIPCIÓN O NOMBRE</th>
+                                <th scope="col" class="text-left">CANT.</th>
+                                <th scope="col" class="text-right">P.V.P. UNI.</th>
+                                <th scope="col" class="text-right">SUBTOTAL</th>
+                                <th scope="col" class="text-right">%IVA</th>
+                                <th scope="col" class="text-left">DISPONIBILIDAD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let repuesto of repuestosSeleccionadosParaCompra">
+                                <tr>
+                                    <td>
+                                        <button (click)="eliminarDelCarrito(repuesto)" mat-icon-button type="button">
+                                            <mat-icon color="warn">delete</mat-icon>
+                                        </button>
+                                    </td>
+                                    <td class="font-light text-left">{{repuesto.id_repuesto}}</td>
+                                    <td class="font-light text-left">{{repuesto.nombre_repuesto}}</td>
+                                    <td class="font-light text-center d-flex justify-content-center">
+                                        <div class="input-group" style="width: 100px; margin: 0;">
+                                            <button class="btn" type="button"
+                                                (click)="disminuirCantidad(repuesto.id_repuesto)">-</button>
+                                            <input type="text" class="form-control" disabled
+                                                [value]="repuestoCantidades.get(repuesto.id_repuesto)" #cantidad
+                                                name="cantidad">
+                                            <button class="btn" type="button"
+                                                (click)="aumentarCantidad(repuesto.id_repuesto)">+</button>
+                                        </div>
+                                    </td>
+                                    <td class="font-light text-right">{{repuesto.precio_PVP}}$</td>
+                                    <td class="font-light text-right">{{repuesto.precio_PVP ? (repuesto.precio_PVP *
+                                        (repuestoCantidades.get(repuesto.id_repuesto) ?? 1)).toFixed(2) : ''}}$</td>
+                                    <td class="font-light text-right">{{repuesto.iva}}</td>
+                                    <td class="font-light text-right">30 días</td>
+                                </tr>
+                            </ng-container>
+                            <tr class="border-0">
+                                <td class="border-0" colspan="4"></td>
+                                <td class="border">SUBTOTAL 15%</td>
+                                <td class="border">${{calcularSubTotal()}}</td>
+                                <td class="border-0" colspan="2"></td>
+                            </tr>
+                            <tr class="border-0">
+                                <td class="border-0" colspan="4"></td>
+                                <td class="border">IVA 15%</td>
+                                <td class="border">${{calcularIVA(1.15)}}</td>
+                                <td class="border-0" colspan="2"></td>
+                            </tr>
+                            <tr class="border-0">
+                                <td class="border-0" colspan="4"></td>
+                                <td class="border"><b>TOTAL</b></td>
+                                <td class="border"><b>${{calcularTotal()}}</b></td>
+                                <td class="border-0" colspan="2"></td>
+                            </tr>
+                        </tbody>
+                    </table><br>
+                    <button class="w-100" type="button" mat-raised-button color="primary">
+                        <mat-icon>payments</mat-icon>Generar cotización</button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noRepuestosSeleccionadosParaCompra>
+        <div class="col text-center">
+            <p>No tienes repuestos</p>
+        </div>
+        <a class="d-flex justify-content-center mt-5" href="/repuestos">
+            <button style="width: 100%;" type="button" mat-raised-button color="primary">
+                <mat-icon>store</mat-icon>Ver todos los productos</button>
+        </a>
+    </ng-template>
+</div>
