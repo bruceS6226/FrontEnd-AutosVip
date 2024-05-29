@@ -50,71 +50,72 @@
                 <h4 class="m-0">Resumen del pedido</h4><br>
             </div><br>
             <div class="flex flex-col">
-                <div>
-                    <table class="table table-bordered mb-4 align-content-center">
-                        <thead>
+                <table id="cotizacion" class="table table-bordered mb-4 align-content-center">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-left no-print"></th>
+                            <th scope="col" class="text-left">CÓDIGO</th>
+                            <th scope="col" class="text-left">DESCRIPCIÓN O NOMBRE</th>
+                            <th scope="col" class="text-left">CANT.</th>
+                            <th scope="col" class="text-right">P.V.P. UNI.</th>
+                            <th scope="col" class="text-right">SUBTOTAL</th>
+                            <th scope="col" class="text-right">%IVA</th>
+                            <th scope="col" class="text-left">DISPONIBILIDAD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let repuesto of repuestosSeleccionadosParaCompra">
                             <tr>
-                                <th scope="col" class="text-left"></th>
-                                <th scope="col" class="text-left">CÓDIGO</th>
-                                <th scope="col" class="text-left">DESCRIPCIÓN O NOMBRE</th>
-                                <th scope="col" class="text-left">CANT.</th>
-                                <th scope="col" class="text-right">P.V.P. UNI.</th>
-                                <th scope="col" class="text-right">SUBTOTAL</th>
-                                <th scope="col" class="text-right">%IVA</th>
-                                <th scope="col" class="text-left">DISPONIBILIDAD</th>
+                                <td class="no-print">
+                                    <button (click)="eliminarDelCarrito(repuesto)" mat-icon-button type="button">
+                                        <mat-icon color="warn">delete</mat-icon>
+                                    </button>
+                                </td>
+                                <td class="font-light text-left">{{repuesto.id_repuesto}}</td>
+                                <td class="font-light text-left">{{repuesto.nombre_repuesto}}</td>
+                                <td class="font-light text-center d-flex justify-content-center">
+                                    <div class="input-group" style="width: 100px; margin: 0;">
+                                        <button class="btn no-print" type="button"
+                                            (click)="disminuirCantidad(repuesto.id_repuesto)">-</button>
+                                        <input type="text" class="form-control" disabled
+                                            [value]="repuestoCantidades.get(repuesto.id_repuesto)" #cantidad
+                                            name="cantidad">
+                                        <button class="btn no-print" type="button"
+                                            (click)="aumentarCantidad(repuesto.id_repuesto)">+</button>
+                                    </div>
+                                </td>
+                                <td class="font-light text-right">{{repuesto.precio_PVP}}$</td>
+                                <td class="font-light text-right">{{repuesto.precio_PVP ? (repuesto.precio_PVP *
+                                    (repuestoCantidades.get(repuesto.id_repuesto) ?? 1)).toFixed(2) : ''}}$</td>
+                                <td class="font-light text-right">{{repuesto.iva}}</td>
+                                <td class="font-light text-right">30 días</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container *ngFor="let repuesto of repuestosSeleccionadosParaCompra">
-                                <tr>
-                                    <td>
-                                        <button (click)="eliminarDelCarrito(repuesto)" mat-icon-button type="button">
-                                            <mat-icon color="warn">delete</mat-icon>
-                                        </button>
-                                    </td>
-                                    <td class="font-light text-left">{{repuesto.id_repuesto}}</td>
-                                    <td class="font-light text-left">{{repuesto.nombre_repuesto}}</td>
-                                    <td class="font-light text-center d-flex justify-content-center">
-                                        <div class="input-group" style="width: 100px; margin: 0;">
-                                            <button class="btn" type="button"
-                                                (click)="disminuirCantidad(repuesto.id_repuesto)">-</button>
-                                            <input type="text" class="form-control" disabled
-                                                [value]="repuestoCantidades.get(repuesto.id_repuesto)" #cantidad
-                                                name="cantidad">
-                                            <button class="btn" type="button"
-                                                (click)="aumentarCantidad(repuesto.id_repuesto)">+</button>
-                                        </div>
-                                    </td>
-                                    <td class="font-light text-right">{{repuesto.precio_PVP}}$</td>
-                                    <td class="font-light text-right">{{repuesto.precio_PVP ? (repuesto.precio_PVP *
-                                        (repuestoCantidades.get(repuesto.id_repuesto) ?? 1)).toFixed(2) : ''}}$</td>
-                                    <td class="font-light text-right">{{repuesto.iva}}</td>
-                                    <td class="font-light text-right">30 días</td>
-                                </tr>
-                            </ng-container>
-                            <tr class="border-0">
-                                <td class="border-0" colspan="4"></td>
-                                <td class="border">SUBTOTAL 15%</td>
-                                <td class="border">${{calcularSubTotal()}}</td>
-                                <td class="border-0" colspan="2"></td>
-                            </tr>
-                            <tr class="border-0">
-                                <td class="border-0" colspan="4"></td>
-                                <td class="border">IVA 15%</td>
-                                <td class="border">${{calcularIVA(1.15)}}</td>
-                                <td class="border-0" colspan="2"></td>
-                            </tr>
-                            <tr class="border-0">
-                                <td class="border-0" colspan="4"></td>
-                                <td class="border"><b>TOTAL</b></td>
-                                <td class="border"><b>${{calcularTotal()}}</b></td>
-                                <td class="border-0" colspan="2"></td>
-                            </tr>
-                        </tbody>
-                    </table><br>
-                    <button class="w-100" type="button" mat-raised-button color="primary">
-                        <mat-icon>payments</mat-icon>Generar cotización</button>
-                </div>
+                        </ng-container>
+                        <tr class="border-0">
+                            <td class="border-0 no-print"></td>
+                            <td class="border-0" colspan="3"></td>
+                            <td class="border">SUBTOTAL 15%</td>
+                            <td class="border">${{calcularSubTotal()}}</td>
+                            <td class="border-0" colspan="2"></td>
+                        </tr>
+                        <tr class="border-0">
+                            <td class="border-0 no-print"></td>
+                            <td class="border-0" colspan="3"></td>
+                            <td class="border">IVA 15%</td>
+                            <td class="border">${{calcularIVA(1.15)}}</td>
+                            <td class="border-0" colspan="2"></td>
+                        </tr>
+                        <tr class="border-0">
+                            <td class="border-0 no-print"></td>
+                            <td class="border-0" colspan="3"></td>
+                            <td class="border"><b>TOTAL</b></td>
+                            <td class="border"><b>${{calcularTotal()}}</b></td>
+                            <td class="border-0" colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table><br>
+                <button class="w-100" type="button" mat-raised-button color="primary" (click)="crearPDF()">
+                    <mat-icon>payments</mat-icon>Generar cotización</button>
             </div>
         </div>
     </ng-container>

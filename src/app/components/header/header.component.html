@@ -100,7 +100,8 @@
                     </button>
                 </div>
                 <div class="border border-black-300">
-                    <p class="card-text" style="padding: 0 45px 0 10px; margin-bottom: 0;"><b>{{repuesto.nombre_repuesto}}</b></p>
+                    <p class="card-text" style="padding: 0 45px 0 10px; margin-bottom: 0;">
+                        <b>{{repuesto.nombre_repuesto}}</b></p>
                     <a class="row" href="/repuesto/{{repuesto.id_repuesto}}">
                         <div class="col-lg-4">
                             <img class="imagenRepuesto" src="{{appUrl+apiUrl+'/'+repuesto.foto_principal}}" alt="">
@@ -115,11 +116,9 @@
             </ng-container>
             <br><br>
             <h3><b>TOTAL: ${{calcularTotal()}} + IVA</b></h3>
-            <a href="/detalle-carrito">
-                <button mat-raised-button color="primary" class="w-100" style="margin: 5px 0 15px 0 ;">
-                    <mat-icon>shopping_cart_checkout</mat-icon>Ver mas detalles
-                </button>
-            </a>
+            <button mat-raised-button color="primary" class="w-100" style="margin: 5px 0 15px 0 ;" (click)="abrirDialogIniciarSesion()">
+                <mat-icon>shopping_cart_checkout</mat-icon>Ver mas detalles
+            </button>
             <button (click)="borrarRepuestosSeleccionadosParaCompra()" mat-raised-button color="warn" class="w-100">
                 <mat-icon>delete</mat-icon>Borrar todo
             </button>

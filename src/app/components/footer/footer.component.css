@@ -1,49 +1,32 @@
 .footer {
     position: relative;
+    color: white;
     width: 100%;
-    background-color: white;
+    background-color: rgb(0, 0, 0);
     top: 0;
     align-items: center;
-    text-align: center;
+    text-align: start;
     border-top: 1px solid #eeeeee;
     box-shadow: 0 0 0 0 #f5f5f5;
+    font-size: 18px;
 }
-h4{
-    font-weight: 800;
+.footer p{
+    font-size: 18px;
 }
 
-.footer-copy {
-    height: 90px;
-    background-color: #000000;
-    color: white;
-    align-items: center;
-    text-align: center;
+h4{
+    font-weight: 800;
 }
 
 .header-container>* {
     margin: 0 10px;
 }
-.botonWhatssapp {
-    background-color: #64D448;
-    color: white;
-    border-radius: 50%;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    line-height: 55px;
-    text-decoration: none;
-    font-size: 42px;
-    transition: background-color 0.3s;
+.footer .imgLarga{
+    height: 80px;
+    width: auto;
 }
-.botonWhatssapp:hover::before {
-    margin: -8px 0 0 43px;
-    content: "WA: +593999900223";
-    position: fixed;
-    background-color: #24b600;
-    color: white;
-    border-radius: 10px;
-    padding: 5px 10px;
-    font-size: 15px;
-    opacity: 1;
-    transition: opacity 0.3s;
+
+.footer .imgAncha{
+    height: 60px;
+    width: auto;
 }

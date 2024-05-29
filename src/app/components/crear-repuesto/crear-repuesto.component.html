@@ -1,0 +1,31 @@
+<div class="container">
+    <form [formGroup]="imageUploadForm" (ngSubmit)="onSubmit()">
+        <div class="image-upload-container" formArrayName="images">
+            <div class="row row-cols-lg-6">
+                <ng-container *ngFor="let image of images.controls; let i=index" [formGroupName]="i">
+                    <div class="col m-1" style="width: 200px;">
+                        <div>
+                            <div class="position-relative">
+                                <button mat-mini-fab color="warn" (click)="removeImage(i)" *ngIf="i > 0" type="button"
+                                    class="position-absolute shadow-none top-0 rounded-0" style="z-index: 100;">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                            <div class="card cardSecundaria">
+                                <img *ngIf="image.get('previewUrl')!.value" [src]="image.get('previewUrl')!.value"
+                                    alt="Preview" class="imagenSecundaria">
+                            </div>
+                            <input type="file" (change)="onFileChange($event, i)" style="font-size: 9px;"
+                                accept="image/png, image/jpg, image/jpeg, image/gif">
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="align-content-center" style="width: 65px;">
+                    <button mat-fab color="link" (click)="addImage()"
+                        *ngIf="allImagesSelected() && images.length < 5" type="button"><mat-icon>add</mat-icon></button>
+                </div>
+            </div>
+        </div>
+        <button mat-raised-button color="accent" type="submit" *ngIf="allImagesSelected()">Enviar</button>
+    </form>
+</div>

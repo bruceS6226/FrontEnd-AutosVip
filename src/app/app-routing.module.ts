@@ -7,16 +7,18 @@ import { BuscarRepuestoComponent } from './components/buscar-repuesto/buscar-rep
 import { BuscarGuard } from './utils/buscar.guard';
 import { DetalleCarritoComponent } from './components/detalle-carrito/detalle-carrito.component';
 import { ErrorComponent } from './components/error/error.component';
+import { CrearRepuestoComponent } from './components/crear-repuesto/crear-repuesto.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [BuscarGuard] },
   { path: 'search', component: BuscarRepuestoComponent },
   { path: 'repuesto/:id_repuesto', component: DetalleRepuestoComponent },
-  { path: 'detalle-carrito', component: DetalleCarritoComponent},
+  //{ path: 'detalle-carrito', component: DetalleCarritoComponent},
   { path: 'soysecreto987654321', component: ErrorComponent},
   { path: 'repuestos', component: RepuestosComponent, children: [
     { path: '**', component: RepuestosComponent }
   ]},
+  { path: 'crear-repuesto', component: CrearRepuestoComponent },
   { path: '**', component: HomeComponent }
 ];
 

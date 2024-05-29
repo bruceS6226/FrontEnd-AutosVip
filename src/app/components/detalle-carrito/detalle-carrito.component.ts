@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Repuesto } from 'src/app/models/repuesto';
 import { RepuestoService } from 'src/app/services/repuestos.service';
 import { environment } from 'src/environment/environment';
-import { Subscription } from 'rxjs';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-detalle-carrito',
@@ -20,7 +22,7 @@ export class DetalleCarritoComponent implements OnInit {
   public repuestoCantidades: Map<string, number> = new Map<string, number>();
 
   constructor(private _repuestoService: RepuestoService, private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router, private dialog: MatDialog,) {
     this._repuestoService.actualizarDetalleCarrito$.subscribe({
       next: () => {
         this.ngOnInit()
@@ -66,9 +68,9 @@ export class DetalleCarritoComponent implements OnInit {
     for (const repuesto of this.repuestosSeleccionadosParaCompra) {
       const cantidadActual = this.repuestoCantidades.get(repuesto.id_repuesto);
       if (cantidadActual) {
-        total += repuesto.precio_PVP*cantidadActual;
+        total += repuesto.precio_PVP * cantidadActual;
       } else {
-      total += repuesto.precio_PVP;
+        total += repuesto.precio_PVP;
       }
     }
     total = total * 1.15
@@ -82,9 +84,9 @@ export class DetalleCarritoComponent implements OnInit {
     for (const repuesto of this.repuestosSeleccionadosParaCompra) {
       const cantidadActual = this.repuestoCantidades.get(repuesto.id_repuesto);
       if (cantidadActual) {
-        total += repuesto.precio_PVP*cantidadActual;
+        total += repuesto.precio_PVP * cantidadActual;
       } else {
-      total += repuesto.precio_PVP;
+        total += repuesto.precio_PVP;
       }
     }
     total = total
@@ -98,9 +100,9 @@ export class DetalleCarritoComponent implements OnInit {
     for (const repuesto of this.repuestosSeleccionadosParaCompra) {
       const cantidadActual = this.repuestoCantidades.get(repuesto.id_repuesto);
       if (cantidadActual) {
-        total += repuesto.precio_PVP*cantidadActual;
+        total += repuesto.precio_PVP * cantidadActual;
       } else {
-      total += repuesto.precio_PVP;
+        total += repuesto.precio_PVP;
       }
     }
     total = total * (indice - 1)
@@ -142,4 +144,79 @@ export class DetalleCarritoComponent implements OnInit {
       }
     }
   }
+
+  crearPDF() {
+    const data = document.getElementById('cotizacion');
+    if (data) {
+      html2canvas(data, {
+        onclone: (clonedDoc) => {
+          clonedDoc.querySelectorAll('.no-print').forEach(element => {
+            (element as HTMLElement).style.display = 'none';
+          });
+        }
+      }).then(canvas => {
+        const imgWidth = 210;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        const contentDataURL = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const topMargin = 5;
+        const imageMargin = topMargin + 5;
+        const rucMargin = imageMargin + 20;
+        const paisMargin = rucMargin + 5;
+        const whspMargin = paisMargin + 5;
+        const tablePosition = whspMargin + 10;
+        pdf.setFontSize(12);
+        const pageWidth = pdf.internal.pageSize.getWidth();
+
+        const logoURL = '../../../assets/img/logo.png';
+        const logoWidth = 25;
+        const logoHeight = 15;
+        const centroImagen = (pageWidth - logoWidth) / 2;
+        pdf.addImage(logoURL, 'PNG', centroImagen, imageMargin, logoWidth, logoHeight);
+
+        const ruc = 'RUC: 1793190517001';
+        const rucWidth = pdf.getTextWidth(ruc);
+        const rucPosition = (pageWidth - rucWidth) / 2;
+        pdf.text(ruc, rucPosition, rucMargin);
+
+        const pais = 'ECUADOR';
+        const paisWidth = pdf.getTextWidth(pais);
+        const paisPosition = (pageWidth - paisWidth) / 2;
+        pdf.text(pais, paisPosition, paisMargin);
+
+        const whsp = 'WHATSAPP 0999900223';
+        const whspWidth = pdf.getTextWidth(whsp);
+        const whspPosition = (pageWidth - whspWidth) / 2;
+        pdf.text(whsp, whspPosition, whspMargin);
+
+        pdf.addImage(contentDataURL, 'PNG', 0, tablePosition, imgWidth, imgHeight);
+        pdf.save('cotizacion.pdf');
+      });
+    }
+  }
+
+
+  abrirDialogIniciarSesion(): void {
+    const dialogRef = this.dialog.open(ContenidoDialogoIniciarSesion, {
+      width: '40%',
+    });
+    dialogRef.afterClosed().subscribe();
+  }
 }
+
+@Component({
+  selector: 'dialog-content',
+  template: `
+    <h1 mat-dialog-title>Inicio de sesión requerido</h1>
+    <mat-dialog-content class="mat-typography">
+    Debe iniciar sesión para acceder, pero aún no contamos con la página de registro, 
+    estamos trabajando en ello para brindarle una mejor experiencia. <b>Gracias por su comprensión.</b>
+    </mat-dialog-content>
+    <mat-dialog-actions class="" align="end">
+      <button color="primary" mat-raised-button mat-dialog-close cdkFocusInitial>OK</button>
+    </mat-dialog-actions>
+  `,
+  standalone: true,
+  imports: [MatDialogModule, MatButtonModule],
+})
+export class ContenidoDialogoIniciarSesion { }

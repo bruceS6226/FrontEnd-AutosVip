@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CategoriasArbolComponent } from './components/categorias-arbol/categorias-arbol.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DetalleRepuestoComponent } from './components/detalle-repuesto/detalle-repuesto.component';
+import { CrearRepuestoComponent } from './components/crear-repuesto/crear-repuesto.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatTreeModule} from '@angular/material/tree';
@@ -28,7 +29,8 @@ import { DetalleCarritoComponent } from './components/detalle-carrito/detalle-ca
 import { ErrorComponent } from './components/error/error.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     BuscarRepuestoComponent,
     FooterComponent,
     DetalleCarritoComponent,
-    ErrorComponent
+    ErrorComponent,
+    CrearRepuestoComponent
   ],
   imports: [
     HttpClientModule,
@@ -60,6 +63,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatBadgeModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
+    MatCardModule,
     
   ],
   providers: [],
